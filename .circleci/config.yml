@@ -27,10 +27,16 @@ jobs:
     - run: go get -t -d -v ./...
     - run: chmod +x build-image.sh
     - run: ./build-image.sh
-    - run: ./build-image.sh fluentd
     - deploy:
         name: Publish application to docker hub
         command: |
           docker login -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
           docker tag log-pilot $DOCKER_HUB_USER_ID/log-pilot:latest
           docker push $DOCKER_HUB_USER_ID/log-pilot:latest
+    - run: ./build-image.sh fluentd
+    - deploy:
+        name: Publish application to docker hub
+        command: |
+          docker login -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
+          docker tag log-pilot $DOCKER_HUB_USER_ID/log-pilot:latest-fluentd
+          docker push $DOCKER_HUB_USER_ID/log-pilot:latest-fluentd
