@@ -31,6 +31,6 @@ jobs:
     - deploy:
         name: Publish application to docker hub
         command: |
-          docker login -e $DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
+          docker login -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
           docker tag log-pilot $DOCKER_HUB_USER_ID/log-pilot:latest
           docker push $DOCKER_HUB_USER_ID/log-pilot:latest
