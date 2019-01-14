@@ -45,7 +45,7 @@ func init() {
 	Register("csv", simpleConverter([]string{"time_key", "time_format", "keys"}))
 	Register("json", simpleConverter([]string{"time_key", "time_format"}))
 	Register("regexp", simpleConverter([]string{"time_key", "time_format"}))
-	Register("apache2", simpleConverter([]string{"time_key", "time_format", "expression"}))
+	Register("apache2", simpleConverter([]string{"time_key", "time_format", "format"}))
 	Register("apache_error", simpleConverter([]string{}))
 	Register("nginx", simpleConverter([]string{}))
 	Register("regexp", func(info *LogInfoNode) (map[string]string, error) {
