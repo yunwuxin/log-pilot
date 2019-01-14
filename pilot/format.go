@@ -45,11 +45,11 @@ func init() {
 	Register("csv", simpleConverter([]string{"time_key", "time_format", "keys"}))
 	Register("json", simpleConverter([]string{"time_key", "time_format"}))
 	Register("regexp", simpleConverter([]string{"time_key", "time_format"}))
-	Register("apache2", simpleConverter([]string{}))
+	Register("apache2", simpleConverter([]string{"time_key", "time_format", "expression"}))
 	Register("apache_error", simpleConverter([]string{}))
 	Register("nginx", simpleConverter([]string{}))
 	Register("regexp", func(info *LogInfoNode) (map[string]string, error) {
-		ret, err := simpleConverter([]string{"pattern", "time_format"})(info)
+		ret, err := simpleConverter([]string{"pattern", "time_key", "time_format"})(info)
 		if err != nil {
 			return ret, err
 		}
