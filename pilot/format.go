@@ -6,6 +6,8 @@ type FormatConverter func(info *LogInfoNode) (map[string]string, error)
 
 var converters = make(map[string]FormatConverter)
 
+var defaultProperties = []string{"types", "time_key", "null_value_pattern", "null_empty_string", "time_format", "time_type"}
+
 func Register(format string, converter FormatConverter) {
 	converters[format] = converter
 }
@@ -25,6 +27,8 @@ type SimpleConverter struct {
 func init() {
 
 	simpleConverter := func(properties []string) FormatConverter {
+
+		properties = append(properties, defaultProperties...);
 		return func(info *LogInfoNode) (map[string]string, error) {
 			validProperties := make(map[string]bool)
 			for _, property := range properties {
@@ -41,21 +45,12 @@ func init() {
 		}
 	}
 
-	Register("nonex", simpleConverter([]string{}))
-	Register("csv", simpleConverter([]string{"time_key", "time_format", "keys"}))
-	Register("json", simpleConverter([]string{"time_key", "time_format"}))
-	Register("regexp", simpleConverter([]string{"time_key", "time_format"}))
-	Register("apache2", simpleConverter([]string{"time_key", "time_format", "format"}))
+	Register("csv", simpleConverter([]string{"keys", "delimiter"}))
+	Register("json", simpleConverter([]string{"json_parser"}))
+	Register("regexp", simpleConverter([]string{"expression", "ignorecase", "multiline"}))
+	Register("apache", simpleConverter([]string{}))
 	Register("apache_error", simpleConverter([]string{}))
 	Register("nginx", simpleConverter([]string{}))
-	Register("regexp", func(info *LogInfoNode) (map[string]string, error) {
-		ret, err := simpleConverter([]string{"pattern", "time_key", "time_format"})(info)
-		if err != nil {
-			return ret, err
-		}
-		if ret["pattern"] == "" {
-			return nil, fmt.Errorf("regex pattern can not be emtpy")
-		}
-		return ret, nil
-	})
+	Register("none", simpleConverter([]string{"message_key"}))
+
 }

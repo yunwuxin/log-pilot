@@ -533,18 +533,12 @@ func (p *Pilot) parseLogConfig(name string, info *LogInfoNode, jsonLogPath strin
 
 	format := info.children["format"]
 	if format == nil || format.value == "none" {
-		format = newLogInfoNode("nonex")
+		format = newLogInfoNode("none")
 	}
 
 	formatConfig, err := Convert(format)
 	if err != nil {
 		return nil, fmt.Errorf("in log %s: format error: %v", name, err)
-	}
-
-	//特殊处理regex
-	if format.value == "regexp" {
-		format.value = fmt.Sprintf("/%s/", formatConfig["pattern"])
-		delete(formatConfig, "pattern")
 	}
 
 	if path == "stdout" {
