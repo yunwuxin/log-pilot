@@ -48,9 +48,9 @@ func init() {
 	Register("csv", simpleConverter([]string{"keys", "delimiter"}))
 	Register("json", simpleConverter([]string{"json_parser"}))
 	Register("regexp", simpleConverter([]string{"expression", "ignorecase", "multiline"}))
-	Register("apache", simpleConverter([]string{}))
-	Register("apache_error", simpleConverter([]string{}))
-	Register("nginx", simpleConverter([]string{}))
+	Register("apache", simpleConverter([]string{"expression", "ignorecase", "multiline"}))
+	Register("apache_error", simpleConverter([]string{"expression", "ignorecase", "multiline"}))
+	Register("nginx", simpleConverter([]string{"expression", "ignorecase", "multiline"}))
 	Register("none", simpleConverter([]string{"message_key"}))
 
 }
